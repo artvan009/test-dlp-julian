@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "iban",
+        "mastfoot",
+        "pagesizes",
+        "pdfgen",
+        "reportlab",
+        "werkzeug"
+    ],
+    "python.terminal.activateEnvironment": true
+}

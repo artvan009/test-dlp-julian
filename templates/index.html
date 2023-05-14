@@ -1,0 +1,147 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}"/>
+
+    <title>Share Your Data With The World</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static', filename='cover.css')}}" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Data Leaker</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            {% if home is defined %}
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="about">About</a>
+            <a class="nav-link" href="samples">Sample Data</a>
+            {% elif about is defined %}
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" href="about">About</a>
+            <a class="nav-link" href="samples">Sample Data</a>
+            {% elif samples is defined %}
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="about">About</a>
+            <a class="nav-link active" href="samples">Sample Data</a>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+
+      {% if home is defined %}
+      <main role="main" class="inner cover">
+        {% if submitted is defined %}
+        <h1 class="cover-heading" style="color:rgb(164, 0, 0)">Content Was Not Blocked!</h1>
+        </br>
+        <p class="lead">Submitted filename: </br> "{{ filename }}"</p>
+        <p class="lead">Submitted text: </br> "{{ text }}"</p>
+        {% else %}
+        <h1 class="cover-heading">Share your content.</h1>
+        <p class="lead">Enter text in the field below or select a file to upload and hit submit. File uploads are limited to 50MB.</p>
+        <p class="lead">
+        <form method="POST" action="" enctype="multipart/form-data">
+            <textarea class="form-control" id="text-input" name="text-input" rows="3" placeholder="Enter text here"></textarea></br>
+            <input class="form-control" type="file" id="file" name="file"></br>
+            <input type="submit" value="Submit" class="btn btn-lg btn-secondary">
+        </p>
+        {% endif %}
+      </main>
+      {% endif %}
+
+      {% if about is defined %}
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">About.</h1>
+        <p class="lead">
+            This simple demo site was created to test data loss prevention features in secure web gateway products. </br></br>
+            No data is retained on the server when utilising the text and file upload functions on this site. However, best to avoid submitting sensitive or personally identifiable information. 
+        </p>
+        <p class="mastfoot mt-auto">
+            Created using Cover template for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>
+        </p>
+      </main>
+      {% endif %}
+
+      {% if samples is defined %}
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">Sample Data.</h1>
+        <p class="lead">
+            Generate random data by selecting data type, format and quantity from the drop downs below.
+        </p>
+        <form method="POST" action="">
+        <div class="form-group">
+          <label for="record_type">Data Type</label>
+          <select class="form-control" id="record_type" name="record_type">
+            <option value="cc">Credit Card Details</option>
+            <option value="pii">PII (Name, Address, Email, etc.)</option>
+            <option value="cc+pii">PII with Credit Card</option>
+            <option value="bank">Banking</option>
+          </select>
+        </br>
+          <label for="file_format">File Format</label>
+          <select class="form-control" id="file_format", name="file_format">
+            <option value="csv">CSV</option>
+            <option value="txt">TXT</option>
+            <option value="pdf">PDF</option>
+            <option value="json">JSON</option>
+          </select>
+        </br>
+          <div style="position:relative; margin:auto; width:100%">
+            <label for="record_qty" class="form-label">Number of Records to Create</label>
+            <input class="form-range" type="range" id="record_qty" name="record_qty" value='10' max="100" min="1" style="width:100%"></br></br></br>
+            <span style="position:absolute; color:white; min-width:100px;">
+              <span id="record_qty_value"></span>
+            </span>
+          </div>
+          <input type="submit" value="Submit" class="btn btn-lg btn-secondary">
+        </form>
+          <script type="text/javascript" charset="utf-8">
+            var record_qty = document.querySelector('#record_qty');
+            var record_qty_value = document.querySelector('#record_qty_value');
+            var myUnits = 'Records';
+            var off = record_qty.offsetWidth / (parseInt(record_qty.max) - parseInt(record_qty.min));
+            var px =  ((record_qty.valueAsNumber - parseInt(record_qty.min)) * off) - (record_qty_value.offsetParent.offsetWidth / 2);
+            
+              record_qty_value.parentElement.style.left = px + 'px';
+              record_qty_value.parentElement.style.bottom = record_qty.offsetHeight + 'px';
+              record_qty_value.innerHTML = record_qty.value + ' ' + myUnits;
+            
+              record_qty.oninput =function(){
+                let px = ((record_qty.valueAsNumber - parseInt(record_qty.min)) * off) - (record_qty_value.offsetWidth / 2);
+                record_qty_value.innerHTML = record_qty.value + ' ' + myUnits;
+                record_qty_value.parentElement.style.left = px + 'px';
+              };
+              </script>
+      </main>
+      {% endif %}
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Contact <a href="mailto:jgreensmith@zscaler.com">Julian Greensmith</a>. Source available at <a href="https://github.com/jxg81/dlp-test-site">Github</a></p>
+        </div>
+      </footer>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  </body>
+</html>
